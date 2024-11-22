@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trello FAKE</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-theme="">
+    <div class="block">
+      <div class="inserttasks">
+        <input type="text" placeholder="Escribe una tarea" class="tasks" id="tasks" />
+        <input type="submit" value="Añadir" class="add" id="add" />
+      </div>
+      <div class="buttonstheme">
+        <div class="light theme-button" data-theme="light" >LIGHT ☀️</div>
+        <div class="dark theme-button" data-theme="dark">DARK 🌑</div>
+        <div class="pastel theme-button" data-theme="pastel">PASTEL 🦄</div>
+      </div>
+      <div class="divtask">
+      <div class="taskdivs" id="not finished">
+        <h1>
+            Sin hacer (0)
+        </h1>
+      </div>
+      <div class="taskdivs" id="on work">
+        <h1>
+            En Proceso (0)
+        </h1>
+      </div>
+      <div class="taskdivs" id="done">
+        <h1>
+            Hecho (0)
+        </h1>
+      </div>
+    </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
