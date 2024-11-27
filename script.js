@@ -4,6 +4,10 @@ const add =document.getElementById("add");
 const notfinisheddiv = document.getElementById("notfinished");
 const onworkdiv = document.getElementById("onwork");
 const finisheddiv = document.getElementById("done");
+const notFinishedTitle = document.getElementById("notfinishedh1");
+const onWorkTitle = document.getElementById("onworkh1");
+const finishedTitle = document.getElementById("doneh1");
+
 themebuttons.forEach(id => {
     id.addEventListener("click", () => {
         const theme = id.getAttribute("data-theme");
@@ -29,8 +33,8 @@ add.addEventListener("click", () => {
     const edittask = document.createElement("div");
     const deletetask = document.createElement("div");
 
-    edittask.innerText = "✏️";
-    deletetask.innerText = "🗑️";
+    edittask.innerText = "";
+    deletetask.innerText = "";
 
     tasknotfinished.style.backgroundColor = `hsl(${Math.random() * 360}, 60%, 50%)`;
 
@@ -45,11 +49,13 @@ add.addEventListener("click", () => {
     tasknotfinished.appendChild(edittask);
     tasknotfinished.appendChild(deletetask);
     notfinisheddiv.appendChild(tasknotfinished);
-    tasks.value = "";
+    tasks.value =
 
     deletetask.addEventListener("click", () => {
-        const parentContainer = tasknotfinished.parentElement; // Contenedor actual de la tarea
-        parentContainer.removeChild(tasknotfinished); // Elimina la tarea del contenedor actual
+        const parentContainer = tasknotfinished.parentElement;
+        parentContainer.removeChild(tasknotfinished);
+        updateTaskCounts();
+
     });
 
     edittask.addEventListener("click", () => {
@@ -59,26 +65,34 @@ add.addEventListener("click", () => {
 
     // Drag and drop setup
     tasknotfinished.setAttribute("draggable", "true");
-    tasknotfinished.setAttribute("id", `task-${Date.now()}`); // ID único basado en tiempo
+    tasknotfinished.setAttribute("id", `task-${Date.now()}`);
     tasknotfinished.addEventListener("dragstart", dragstart);
 
     [notfinisheddiv, onworkdiv, finisheddiv].forEach(progress => {
         progress.addEventListener("dragover", dragover);
         progress.addEventListener("drop", drop);
     });
+    updateTaskCounts();
 });
 
 function dragstart(event) {
-    event.dataTransfer.setData("taskId", event.target.id); // Transferimos solo el ID
+    event.dataTransfer.setData("taskId", event.target.id);
 }
 
 function dragover(event) {
-    event.preventDefault(); // Necesario para permitir el drop
+    event.preventDefault(); 
 }
 
 function drop(event) {
     event.preventDefault();
-    const taskId = event.dataTransfer.getData("taskId"); // Obtenemos el ID de la tarea
-    const taskElement = document.getElementById(taskId); // Obtenemos el elemento por su ID
-    event.currentTarget.appendChild(taskElement); // Movemos el elemento al nuevo contenedor
+    const numTasks = event.currentTarget.children.length;
+    const taskId = event.dataTransfer.getData("taskId"); 
+    const taskElement = document.getElementById(taskId); 
+    event.currentTarget.appendChild(taskElement); 
+    updateTaskCounts();
+}
+function updateTaskCounts() {
+    notFinishedTitle.innerText = `Sin hacer (${notfinisheddiv.childElementCount-1})`;
+    onWorkTitle.innerText = `En proceso (${onworkdiv.childElementCount-1})`;
+    finishedTitle.innerText = `Hecho (${finisheddiv.childElementCount-1})`;
 }
